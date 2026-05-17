@@ -11,34 +11,25 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-        if(head == NULL || head->next == NULL)
+        // now doing this in O(1) space complexity by changing the links
+        if (head == NULL || head->next == NULL)
             return head;
 
-        vector <int> arr;
-        ListNode* temp = head;
-        // push all the odd indices in the array
-        while(temp != NULL){
-            arr.push_back(temp->val);
-            if(temp->next == NULL)
-                temp = NULL;
-            else
-                temp = temp->next->next;
+        ListNode* oddHead = head;
+        ListNode* evenHead = head->next;
+        ListNode* oddTail = oddHead;
+        ListNode* evenTail = evenHead;
+        // making links for the odd and even indices
+        while(evenTail != NULL && evenTail->next != NULL){
+            oddTail->next = oddTail->next->next;
+            evenTail->next = evenTail->next->next;
+
+            oddTail = oddTail->next;
+            evenTail = evenTail->next;
         }
-        // push all the even indices in the array
-        temp = head->next;
-        while(temp != NULL && temp->next != NULL){
-            arr.push_back(temp->val);
-            if(temp->next == NULL)
-                temp = NULL;
-            else
-                temp = temp->next->next;
-        }
-        // now replace the values in the LL
-        temp = head; 
-        for (auto it : arr){
-            temp->val = it;
-            temp = temp->next;
-        }
+
+        // now connect oddTail with evenHead;
+        oddTail->next = evenHead;
 
         return head;
     }
