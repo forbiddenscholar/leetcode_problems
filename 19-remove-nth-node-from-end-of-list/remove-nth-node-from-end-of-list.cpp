@@ -11,23 +11,31 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        // find no. of node
-        ListNode* temp = head;
-        int count = 0;
-        while(temp != NULL){
-            count++;
-            temp = temp->next;
-        }
-        // if there is only 1 node
-        if(n == count)
-            return head->next;
-        // need to delete count-n+1 th node
-        temp = head;
-        for(int i = 0; i < count - n - 1; i++){
-            temp = temp->next;
-        }
-        temp->next = temp->next->next;
+        // using optimal approach, slow and fast pointers
+        // 1. move the fast exactly n steps
+        // 2. now move both fast and slow by 1 steps until fast reaches the end
+        // 3. connect slow->next = slow->next->next
 
-        return head;
+        // make a dummy node for edge cases
+        ListNode* dummy = new ListNode(0, head);
+        
+        ListNode* fast = dummy;
+        ListNode* slow = dummy;
+
+        // moving fast exactly n steps
+        while(n--)
+            fast = fast->next;
+
+        // now moving both fast and slow
+        while(fast->next != NULL){
+            fast = fast->next;
+            slow = slow->next;
+        }
+
+        // now skip the node after slow
+        slow->next = slow->next->next;
+
+        // return the updated head
+        return dummy->next;
     }
 };
