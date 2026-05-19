@@ -17,10 +17,10 @@ public:
         // 3. connect slow->next = slow->next->next
 
         // make a dummy node for edge cases
-        ListNode* dummy = new ListNode(0, head);
+        ListNode* dummy_ptr = new ListNode(0, head);
         
-        ListNode* fast = dummy;
-        ListNode* slow = dummy;
+        ListNode* fast = dummy_ptr;
+        ListNode* slow = dummy_ptr;
 
         // moving fast exactly n steps
         while(n--)
@@ -36,6 +36,6 @@ public:
         slow->next = slow->next->next;
 
         // return the updated head
-        return dummy->next;
+        return dummy_ptr->next;
     }
 };
