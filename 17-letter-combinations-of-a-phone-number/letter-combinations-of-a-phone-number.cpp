@@ -1,21 +1,23 @@
 class Solution {
-private:
-    void helper(int idx, string digits, string curr, vector<string>& ans, string combos[]){
+public:
+    vector<string> ans;
+    string curr;
+    vector<string> mp = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    void backtrack(int idx, string& digits){
         if(idx == digits.size()){
             ans.push_back(curr);
             return;
         }
-        int digit = digits[idx] - '0';
-        for(int i=0; i<combos[digit].size(); i++){
-            helper(idx+1, digits, curr+combos[digit][i], ans, combos);
+        int digit = digits[idx]-'0';
+        string letters = mp[digit];
+        for(char c : letters){
+            curr.push_back(c);
+            backtrack(idx+1, digits);
+            curr.pop_back();
         }
     }
-public:
     vector<string> letterCombinations(string digits) {
-        string combos[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        vector<string> ans;
-        string curr = "";
-        helper(0, digits, curr, ans, combos);
+        backtrack(0, digits);
         return ans;
     }
 };
