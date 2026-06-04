@@ -19,16 +19,14 @@ private:
     }
 public:
     bool exist(vector<vector<char>>& board, string word) {
-        bool ans = false;
         for(int i=0; i<board.size(); i++){
             for(int j=0; j<board[0].size(); j++){
                 if(word[0] == board[i][j]){
-                    ans = backtrack(0, i, j, board, word);
-                    if(ans == true)
+                    if(backtrack(0, i, j, board, word))
                         return true;
                 }
             }
         }
-        return ans;
+        return false;
     }
 };
