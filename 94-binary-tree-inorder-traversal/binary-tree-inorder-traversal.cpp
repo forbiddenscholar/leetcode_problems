@@ -11,14 +11,14 @@
  */
 class Solution {
 private:
-    void inorder(TreeNode* root, vector<int> &arr){
+    void inorderRecursive(TreeNode* root, vector<int> &arr){
         // base condition
         if(root == NULL)
             return ;
         // recursion
-        inorder(root->left, arr);
+        inorderRecursive(root->left, arr);
         arr.push_back(root->val);
-        inorder(root->right, arr);
+        inorderRecursive(root->right, arr);
     }
     void morrisInorder(TreeNode* root, vector<int> &arr){
         TreeNode* curr = root;
@@ -47,11 +47,32 @@ private:
             }
         }
     }
+    void inorderIterative(TreeNode* root, vector<int>& arr){
+        TreeNode* curr = root;
+        stack<TreeNode*> st;
+        while(true){
+            if(curr != NULL){
+                st.push(curr);
+                curr = curr->left;
+            }
+            else{
+                if(st.empty())
+                    break;
+                curr = st.top();
+                st.pop();
+                arr.push_back(curr->val);
+                curr = curr->right;
+            }
+        }
+    }
 public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> arr;
+        if(root == NULL)    
+            return arr;
         // inorder(root, arr);
-        morrisInorder(root, arr);
+        // morrisInorder(root, arr);
+        inorderIterative(root, arr);
         return arr;
     }
 };
